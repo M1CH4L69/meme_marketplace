@@ -1,6 +1,7 @@
 import './App.css'
 import { Routes, Route, Navigate, Link } from 'react-router-dom'
 import useCart from './hooks/useCart.js'
+import { useTheme } from './context/ThemeContext.jsx'
 import Login from './routes/Login.jsx'
 import Dashboard from './routes/Dashboard.jsx'
 import Memes from './routes/Memes.jsx'
@@ -11,6 +12,7 @@ import PrivateRoute from './components/PrivateRoute.jsx'
 
 function App() {
   const { items } = useCart()
+  const { mode, toggleTheme } = useTheme()
   const count = items.reduce((sum, i) => sum + i.count, 0)
   return (
     <div className="app">
@@ -18,6 +20,9 @@ function App() {
         <Link to="/dashboard">Dashboard</Link>
         <Link to="/memes">Memy</Link>
         <Link to="/cart" className="cart-link">Košík{count ? ` (${count})` : ''}</Link>
+        <button type="button" className="theme-toggle" onClick={toggleTheme}>
+          {mode === 'dark' ? 'Světlý' : 'Tmavý'}
+        </button>
       </nav>
       <Routes>
         <Route path="/login" element={<Login />} />
